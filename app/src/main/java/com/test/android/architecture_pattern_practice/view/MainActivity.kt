@@ -3,26 +3,25 @@ package com.test.android.architecture_pattern_practice.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.test.android.architecture_pattern_practice.R
 import com.test.android.architecture_pattern_practice.databinding.ActivityMainBinding
 import com.test.android.architecture_pattern_practice.model.DataBase
 import com.test.android.architecture_pattern_practice.model.Person
 import com.test.android.architecture_pattern_practice.viewmodel.ViewModel
 
 class MainActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var adapter: MAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(
+            this, R.layout.activity_main)
 
         val viewModel = ViewModel(DataBase())
+        binding.viewModel = viewModel
 
-        viewModel.personList.observe(this) {
-            adapter.setDataList(it)
-        }
-
-        adapter = MAdapter(viewModel.loadPersonList())
+        adapter = MAdapter()
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

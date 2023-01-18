@@ -7,7 +7,8 @@ import com.test.android.architecture_pattern_practice.R
 import com.test.android.architecture_pattern_practice.model.Person
 
 
-class MAdapter(private var dataList: List<Person>) : RecyclerView.Adapter<MViewHolder>() {
+class MAdapter() : RecyclerView.Adapter<MViewHolder>() {
+    private var dataList: List<Person> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_layout, parent, false)
