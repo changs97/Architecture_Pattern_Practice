@@ -14,7 +14,8 @@ class Presenter(private val view: MainContract.View, private val dataBase: DataB
         view.showPersonList(dataBase.getPersonList())
     }
 
-    override fun addPerson(person: Person) {
+    override fun addPerson(name: String, age: Int) {
+        val person = Person(name, age)
         dataBase.addPerson(person)
         view.showPersonList(dataBase.getPersonList())
     }

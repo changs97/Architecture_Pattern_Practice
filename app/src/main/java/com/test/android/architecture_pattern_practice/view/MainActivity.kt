@@ -30,8 +30,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             try {
                 val name = binding.name.text.toString()
                 val age = binding.age.text.toString().toInt()
-                val person = Person(name, age)
-                presenter.addPerson(person)
+                presenter.addPerson(name, age)
             } catch (e: Exception) {
                 Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             }

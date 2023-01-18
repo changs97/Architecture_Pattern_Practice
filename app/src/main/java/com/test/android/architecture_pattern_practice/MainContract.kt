@@ -10,7 +10,7 @@ class MainContract {
     interface Presenter {
         fun loadPersonList(): ArrayList<Person>
         fun shufflePersonList()
-        fun addPerson(person: Person)
+        fun addPerson(name: String, age: Int)
         fun removeAllPerson()
     }
 }
