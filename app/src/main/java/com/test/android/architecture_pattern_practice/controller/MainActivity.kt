@@ -25,13 +25,13 @@ class MainActivity : AppCompatActivity() {
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         binding.add.setOnClickListener {
-            val name = binding.name.text.toString()
             try {
+                val name = binding.name.text.toString()
                 val age = binding.age.text.toString().toInt()
                 val person = Person(name, age)
                 addPerson(person)
             } catch (e: Exception) {
-                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             }
 
             binding.name.text.clear()
