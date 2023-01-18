@@ -19,8 +19,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val dataBase = DataBase()
-        val presenter = Presenter(this, dataBase)
+        val presenter = Presenter(this, DataBase())
 
         adapter = MAdapter(presenter.loadPersonList())
         binding.recyclerview.adapter = adapter
