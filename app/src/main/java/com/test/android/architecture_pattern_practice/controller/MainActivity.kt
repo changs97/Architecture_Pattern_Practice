@@ -2,6 +2,7 @@ package com.test.android.architecture_pattern_practice.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.android.architecture_pattern_practice.databinding.ActivityMainBinding
 import com.test.android.architecture_pattern_practice.model.DataBase
@@ -25,10 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.add.setOnClickListener {
             val name = binding.name.text.toString()
-            val age = binding.age.text.toString().toInt()
-            val person = Person(name, age)
-
-            addPerson(person)
+            try {
+                val age = binding.age.text.toString().toInt()
+                val person = Person(name, age)
+                addPerson(person)
+            } catch (e: Exception) {
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            }
 
             binding.name.text.clear()
             binding.age.text.clear()
