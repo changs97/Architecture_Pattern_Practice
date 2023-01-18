@@ -3,6 +3,7 @@ package com.test.android.architecture_pattern_practice.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.test.android.architecture_pattern_practice.MainContract
@@ -13,7 +14,7 @@ import com.test.android.architecture_pattern_practice.model.Person
 import com.test.android.architecture_pattern_practice.presenter.Presenter
 
 class MainActivity : AppCompatActivity(), MainContract.View {
-    private val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var adapter: MAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,14 +24,18 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         adapter = MAdapter(presenter.loadPersonList())
         binding.recyclerview.adapter = adapter
-        binding.recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerview.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         binding.add.setOnClickListener {
-            val name = binding.name.text.toString()
-            val age = binding.age.text.toString().toInt()
-            val person = Person(name, age)
-
-            presenter.addPerson(person)
+            try {
+                val name = binding.name.text.toString()
+                val age = binding.age.text.toString().toInt()
+                val person = Person(name, age)
+                presenter.addPerson(person)
+            } catch (e: Exception) {
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+            }
 
             binding.name.text.clear()
             binding.age.text.clear()
@@ -43,8 +48,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         binding.shuffle.setOnClickListener {
             presenter.shufflePersonList()
         }
-
-
     }
 
     override fun showPersonList(personList: ArrayList<Person>) {
