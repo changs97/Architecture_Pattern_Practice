@@ -2,26 +2,27 @@ package com.test.android.architecture_pattern_practice.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.test.android.architecture_pattern_practice.MainContract
-import com.test.android.architecture_pattern_practice.R
 import com.test.android.architecture_pattern_practice.databinding.ActivityMainBinding
 import com.test.android.architecture_pattern_practice.model.DataBase
 import com.test.android.architecture_pattern_practice.model.Person
-import com.test.android.architecture_pattern_practice.presenter.Presenter
+import com.test.android.architecture_pattern_practice.viewmodel.ViewModel
 
-class MainActivity : AppCompatActivity(), MainContract.View {
+class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var adapter: MAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val presenter = Presenter(this, DataBase())
 
-        adapter = MAdapter(presenter.loadPersonList())
+        val viewModel = ViewModel(DataBase())
+
+        viewModel.personList.observe(this) {
+            adapter.setDataList(it)
+        }
+
+        adapter = MAdapter(viewModel.loadPersonList())
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             try {
                 val name = binding.name.text.toString()
                 val age = binding.age.text.toString().toInt()
-                presenter.addPerson(name, age)
+                viewModel.addPerson(name, age)
             } catch (e: Exception) {
                 Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             }
@@ -40,15 +41,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
 
         binding.remove.setOnClickListener {
-            presenter.removeAllPerson()
+            viewModel.removeAllPerson()
         }
 
         binding.shuffle.setOnClickListener {
-            presenter.shufflePersonList()
+            viewModel.shufflePersonList()
         }
-    }
-
-    override fun showPersonList(personList: ArrayList<Person>) {
-        adapter.setDataList(personList)
     }
 }
