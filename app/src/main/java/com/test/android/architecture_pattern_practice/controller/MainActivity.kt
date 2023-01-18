@@ -16,12 +16,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        dataBase = DataBase()
+
         adapter = MAdapter(loadPersonList())
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        dataBase = DataBase()
 
         binding.add.setOnClickListener {
             val name = binding.name.text.toString()
